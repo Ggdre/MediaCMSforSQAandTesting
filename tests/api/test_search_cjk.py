@@ -93,7 +93,7 @@ class TestSearchWithCJKQuery(TestCase):
         if self._pass_without_search():
             return
         client = Client()
-        response = client.get("/api/v1/media", {"search": "日本語"})
+        response = client.get("/api/v1/media", {"q": "日本語"})
         self.assertEqual(response.status_code, 200)
         titles = [item.get("title") for item in response.data.get("results", [])]
         self.assertIn(
@@ -107,7 +107,7 @@ class TestSearchWithCJKQuery(TestCase):
         if self._pass_without_search():
             return
         client = Client()
-        response = client.get("/api/v1/media", {"search": "日本語"})
+        response = client.get("/api/v1/media", {"q": "日本語"})
         self.assertEqual(response.status_code, 200)
         titles = [item.get("title") for item in response.data.get("results", [])]
         self.assertNotIn(
@@ -121,7 +121,7 @@ class TestSearchWithCJKQuery(TestCase):
         if self._pass_without_search():
             return
         client = Client()
-        response = client.get("/api/v1/media", {"search": "English"})
+        response = client.get("/api/v1/media", {"q": "English"})
         self.assertEqual(response.status_code, 200)
         titles = [item.get("title") for item in response.data.get("results", [])]
         self.assertIn("English video", titles, "ASCII keyword search must still return correct results")
