@@ -1,9 +1,8 @@
 name: Semantic Release
 
+# Disabled on push for coursework repo (no GA_DEPLOY_KEY); run manually if needed.
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 permissions:
   contents: write
