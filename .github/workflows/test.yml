@@ -5,6 +5,7 @@ on:
     branches: [ main, master, develop ]
   pull_request:
     branches: [ main, master, develop ]
+  workflow_call:
 
 jobs:
   test:
@@ -14,9 +15,9 @@ jobs:
       postgres:
         image: postgres:14
         env:
-          POSTGRES_DB: mediacms_test
+          POSTGRES_DB: mediacms
           POSTGRES_USER: mediacms
-          POSTGRES_PASSWORD: mediacms_password
+          POSTGRES_PASSWORD: mediacms
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -36,8 +37,9 @@ jobs:
           - 6379:6379
 
     env:
-      DATABASE_URL: postgresql://mediacms:mediacms_password@localhost:5432/mediacms_test
-      REDIS_URL: redis://localhost:6379/0
+      TESTING: "1"
+      POSTGRES_PASSWORD: mediacms
+      POSTGRES_DB: mediacms
       DJANGO_SETTINGS_MODULE: cms.settings
       SECRET_KEY: ci-test-secret-key-not-for-production
       DEBUG: "True"

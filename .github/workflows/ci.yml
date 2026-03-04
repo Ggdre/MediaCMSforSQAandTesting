@@ -1,20 +1,15 @@
----
-name: "CI"
+# Simplified CI for coursework repo: run tests only (no pre-commit, no release).
+name: CI
+
 on:
-  pull_request:
   push:
-    branches:
-      - main
-    paths-ignore:
-      - '**/README.md'
+    branches: [main, master]
+    paths-ignore: ["**/README.md", "**.md"]
+  pull_request:
+    branches: [main, master]
+    paths-ignore: ["**/README.md", "**.md"]
+
 jobs:
-  pre-commit:
-    uses: ./.github/workflows/pre-commit.yml
   test:
-    uses: ./.github/workflows/python.yml
-    needs: [pre-commit]
-  release:
-    uses: ./.github/workflows/docker-build-push.yml
-    secrets: inherit # pass all secrets
-    needs: [test]
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    name: Test
+    uses: ./.github/workflows/test.yml
